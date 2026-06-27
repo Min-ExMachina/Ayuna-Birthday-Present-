@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Lorong Waktu 💜</title>
 
     <style>
@@ -13,12 +13,12 @@
             padding: 0;
             font-family: 'Poppins', sans-serif;
             background-color: #fcf9ff;
-            height: 100vh;
+            min-height: 100vh; /* Agar tetap mengisi layar, tapi bisa melar jika konten banyak */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow-x: hidden; /* Mencegah layar goyang ke samping */
             color: #4c1d95;
             text-align: center;
             position: relative;

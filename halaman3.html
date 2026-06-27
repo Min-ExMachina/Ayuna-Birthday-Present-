@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Momen Kita 💜</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Great+Vibes&display=swap');
@@ -12,12 +12,12 @@
             padding: 0;
             font-family: 'Poppins', sans-serif;
             background-color: #fcf9ff;
-            height: 100vh;
+            min-height: 100vh; /* Agar tetap mengisi layar, tapi bisa melar jika konten banyak */
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            justify-content: center; /* KUNCI UNTUK IPHONE: Memposisikan semua elemen tepat di tengah vertikal */
-            overflow: hidden; 
+            overflow-x: hidden; /* Mencegah layar goyang ke samping */
             position: relative;
             animation: fadeIn 0.8s ease-in-out; /* Masuk dengan memudar halus dari Hal 2 */
         }
