@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lorong Waktu 💜</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #fcf9ff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: #4c1d95;
+            text-align: center;
+            position: relative;
+            /* Efek halus saat baru pindah dari halaman 1 */
+            animation: layarMasuk 0.8s ease; 
+        }
+
+        @keyframes layarMasuk {
+            from { opacity: 0; filter: brightness(2); }
+            to { opacity: 1; filter: brightness(1); }
+        }
+
+        /* --- ORNAMEN GELOMBANG (SAMA DENGAN HAL 1) --- */
+        .wave-top { position: absolute; top: 0; left: 0; width: 100%; z-index: 1; }
+        .wave-bottom { position: absolute; bottom: 0; left: 0; width: 100%; z-index: 1; transform: rotate(180deg); }
+
+        /* --- KONTEN --- */
+        .container {
+            z-index: 10; /* Agar teks di atas gelombang */
+            padding: 20px;
+            max-width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .teks-cerita {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            opacity: 0; 
+            transition: opacity 1s ease-in-out;
+        }
+
+        .muncul { opacity: 1; }
+
+        .btn-lanjut {
+            background: linear-gradient(135deg, #8b5cf6, #5b21b6);
+            color: white;
+            padding: 12px 40px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            box-shadow: 0 8px 20px rgba(109, 40, 217, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-lanjut:active { transform: scale(0.95); }
+
+        /* --- PAGINATION DOTS --- */
+        .pagination { display: flex; gap: 10px; margin-top: 30px; }
+        .dot { width: 8px; height: 8px; background-color: #d8b4fe; border-radius: 50%; transition: 0.3s; }
+        /* PERHATIKAN: Sekarang kelas .aktif dipindahkan ke dot kedua nanti di HTML */
+        .dot.aktif { background-color: #6d28d9; width: 24px; border-radius: 10px; }
+
+        body.pindah-hal {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+        /* --- TOMBOL KEMBALI UNIVERSAL --- */
+        .btn-kembali {
+            position: fixed; top: 20px; left: 20px; z-index: 100;
+            background: rgba(139, 92, 246, 0.2); color: #5b21b6;
+            border: none; padding: 8px 15px; border-radius: 20px;
+            font-weight: 600; cursor: pointer; transition: 0.3s;
+        }
+        .btn-kembali:active { transform: scale(0.9); }
+        
+        /* Pastikan CSS fade out PPT ini juga ada */
+        body.pindah-hal { opacity: 0; transition: opacity 0.8s ease; }
+    </style>
+</head>
+<body>
+    <button class="btn-kembali" onclick="pindahHalaman('index.html')">⬅ Kembali</button>
+
+    <svg class="wave-top" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#eaddff" fill-opacity="1" d="M0,160L48,144C96,128,192,96,288,106.7C384,117,480,171,576,197.3C672,224,768,224,864,208C960,192,1056,160,1152,133.3C1248,107,1344,85,1392,74.7L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+        <path fill="#d0bcff" fill-opacity="0.6" d="M0,224L60,208C120,192,240,160,360,165.3C480,171,600,213,720,213.3C840,213,960,171,1080,149.3C1200,128,1320,128,1380,128L1440,128L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+    </svg>
+
+    <div class="container">
+        <div id="teks1" class="teks-cerita">
+            "Dari semua kejadian kejadian yang kita lalui, abang sangat bahagia bisa selalu menemani dede di setiap part nya"
+        </div>
+        
+        <div id="teks2" class="teks-cerita">
+            "Ini adalah hal yang selalu abang ingat di setiap perjalanan kita"
+        </div>
+
+        <button id="btnLanjut" class="btn-lanjut" onclick="tampilkanTeks()">Lanjut</button>
+
+        <div class="pagination">
+            <div class="dot"></div>       <div class="dot aktif"></div> <div class="dot"></div>       
+            <div class="dot"></div>       
+            <div class="dot"></div>       
+        </div>
+    </div>
+
+    <svg class="wave-bottom" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#eaddff" fill-opacity="1" d="M0,160L48,170.7C96,181,192,203,288,181.3C384,160,480,96,576,90.7C672,85,768,139,864,160C960,181,1056,171,1152,149.3C1248,128,1344,96,1392,80L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+    </svg>
+
+    <script>
+        function pindahHalaman(tujuan) {
+            document.body.classList.add('pindah-hal');
+            setTimeout(function() { window.location.href = tujuan; }, 800);
+        }
+        let klik = 0;
+        function tampilkanTeks() {
+            if (klik === 0) {
+                document.getElementById('teks1').classList.add('muncul');
+                klik++;
+            } else if (klik === 1) {
+                document.getElementById('teks2').classList.add('muncul');
+                document.getElementById('btnLanjut').innerText = "Lihat Momen";
+                
+                // Animasi transisi ke Halaman 3
+                document.getElementById('btnLanjut').onclick = function() { 
+                    // 1. Geser titik indikator ke nomor 3
+                    const dots = document.querySelectorAll('.dot');
+                    dots[1].classList.remove('aktif');
+                    dots[2].classList.add('aktif');
+
+                    // 2. Buat layar memudar (fade out)
+                    document.body.classList.add('pindah-hal');
+
+                    // 3. Pindah halaman setelah animasi memudar selesai (0.8 detik)
+                    setTimeout(function() {
+                        window.location.href = 'halaman3.html'; 
+                    }, 800);
+                };
+                klik++;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kejutan Untuk Dede 💜</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Great+Vibes&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #fcf9ff; 
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            transition: background-color 0.8s ease; /* Transisi memudar ke putih */
+        }
+
+        /* Kelas yang ditambahkan JS untuk layar silau */
+        body.layar-silau {
+            background-color: #ffffff;
+            opacity: 0; /* Membuat seluruh layar pudar ke putih */
+        }
+
+        /* --- TEKS --- */
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8rem;
+            margin-top: 0;
+            margin-bottom: 5px;
+            color: #5b21b6;
+            line-height: 1.2;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        p {
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            color: #6d28d9;
+            text-align: center;
+            padding: 0 10px;
+        }
+
+        /* --- ORNAMEN GELOMBANG --- */
+        .wave-top { position: absolute; top: 0; left: 0; width: 100%; z-index: 1; }
+        .wave-bottom { position: absolute; bottom: 0; left: 0; width: 100%; z-index: 1; transform: rotate(180deg); }
+
+        /* --- KONTEN TENGAH --- */
+        .konten-utama {
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+            margin-top: -20px;
+        }
+
+        .kado-container {
+            position: relative;
+            margin-bottom: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%; 
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .kado {
+            width: 600px; 
+            max-width: 800px; 
+            height: auto;
+            animation: mengambang 3s ease-in-out infinite;
+            filter: drop-shadow(0px 10px 15px rgba(124, 58, 237, 0.15));
+            z-index: 20; /* Z-index tinggi agar kado membesar di atas elemen lain */
+            transform-origin: center;
+        }
+
+        /* --- KODE ANIMASI KADO TERBUKA --- */
+        .animasi-buka {
+            animation: zoomKado 2.2s forwards cubic-bezier(0.25, 1, 0.5, 1) !important;
+        }
+
+        @keyframes zoomKado {
+            0% { transform: scale(1) rotate(0deg); }
+            10% { transform: scale(1.1) rotate(-5deg); }
+            20% { transform: scale(1.1) rotate(5deg); }
+            /* Kado terbuka di titik ini, kita beri waktu diam sejenak sampai 50% */
+            30% { transform: scale(1.2) rotate(0deg); filter: brightness(1.2); }
+            50% { transform: scale(1.2) rotate(0deg); filter: brightness(1.2); opacity: 1; }
+            /* Baru setelah itu melesat membesar */
+            100% { transform: scale(15); opacity: 0; filter: brightness(2); }
+        }
+
+        /* --- BINTANG DEKORASI --- */
+        .sparkle { position: absolute; opacity: 0.6; animation: kedip 2s infinite alternate; z-index: 3; }
+        .sp-1 { top: 10%; left: 5%; width: 25px; animation-delay: 0s; }
+        .sp-2 { top: 50%; right: 5%; width: 20px; animation-delay: 0.5s; }
+        .sp-3 { bottom: 10%; left: 15%; width: 30px; animation-delay: 1s; }
+
+        @keyframes mengambang {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes kedip {
+            0% { transform: scale(0.8); opacity: 0.3; }
+            100% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        /* --- TOMBOL & DOTS --- */
+        .btn-utama {
+            background: linear-gradient(135deg, #8b5cf6, #5b21b6);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-decoration: none;
+            box-shadow: 0 8px 20px rgba(109, 40, 217, 0.3);
+            transition: all 0.3s ease;
+            width: 250px;
+            text-align: center;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+        }
+        .btn-utama:active { transform: scale(0.95); }
+
+        .pagination { display: flex; gap: 10px; margin-top: 25px; }
+        .dot { width: 8px; height: 8px; background-color: #d8b4fe; border-radius: 50%; transition: 0.3s; }
+        .dot.aktif { background-color: #6d28d9; width: 24px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <svg class="wave-top" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#eaddff" fill-opacity="1" d="M0,160L48,144C96,128,192,96,288,106.7C384,117,480,171,576,197.3C672,224,768,224,864,208C960,192,1056,160,1152,133.3C1248,107,1344,85,1392,74.7L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+        <path fill="#d0bcff" fill-opacity="0.6" d="M0,224L60,208C120,192,240,160,360,165.3C480,171,600,213,720,213.3C840,213,960,171,1080,149.3C1200,128,1320,128,1380,128L1440,128L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+    </svg>
+
+    <div class="konten-utama">
+        <h1>Selamat Ulang Tahun, Sayang!</h1>
+        <p>Ada kejutan kecil yang sudah abang siapkan untuk dede...</p>
+
+        <div class="kado-container">
+            <svg class="sparkle sp-1" viewBox="0 0 24 24" fill="#a78bfa"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
+            <svg class="sparkle sp-2" viewBox="0 0 24 24" fill="#c4b5fd"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
+            <svg class="sparkle sp-3" viewBox="0 0 24 24" fill="#8b5cf6"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
+            
+            <img src="Kado.png" alt="Kado" class="kado">
+        </div>
+
+        <a href="#" onclick="jalankanTransisi(event)" class="btn-utama">Buka Hadiah Spesialmu</a>
+
+        <div class="pagination">
+            <div class="dot aktif"></div> 
+            <div class="dot"></div>       
+            <div class="dot"></div>       
+            <div class="dot"></div>       
+            <div class="dot"></div>       
+        </div>
+    </div>
+
+    <svg class="wave-bottom" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#eaddff" fill-opacity="1" d="M0,160L48,170.7C96,181,192,203,288,181.3C384,160,480,96,576,90.7C672,85,768,139,864,160C960,181,1056,171,1152,149.3C1248,128,1344,96,1392,80L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+    </svg>
+
+    <script src="script.js"></script>
+</body>
+</html>

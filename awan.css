@@ -1,0 +1,28 @@
+/* --- TRANSISI AWAN GAMBAR PNG --- */
+.awan {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    /* Diperbesar menjadi 80vh agar sangat penuh menutupi layar */
+    height: 100vh; 
+    background-image: url('awan.png'); 
+    background-size: cover; 
+    background-position: center bottom; 
+    background-repeat: no-repeat;
+    z-index: 1000;
+    transition: all 1s ease-in-out; 
+    pointer-events: none; 
+}
+
+/* Posisi Terbuka (Sembunyi jauh di luar layar) */
+.awan-atas { 
+    top: -85vh; 
+}
+.awan-bawah { 
+    bottom: -85vh; 
+    transform: rotate(180deg); 
+}
+
+/* Posisi Tertutup (Bertemu di tengah layar) */
+.layar-tertutup .awan-atas { top: 0; }
+.layar-tertutup .awan-bawah { bottom: 0; }

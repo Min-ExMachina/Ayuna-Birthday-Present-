@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Momen Kita 💜</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Great+Vibes&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #fcf9ff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* KUNCI UNTUK IPHONE: Memposisikan semua elemen tepat di tengah vertikal */
+            overflow: hidden; 
+            position: relative;
+            animation: fadeIn 0.8s ease-in-out; /* Masuk dengan memudar halus dari Hal 2 */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* --- ORNAMEN GELOMBANG --- */
+        .wave-top { position: absolute; top: 0; left: 0; width: 100%; z-index: 1; }
+        .wave-bottom { position: absolute; bottom: 0; left: 0; width: 100%; z-index: 1; transform: rotate(180deg); }
+
+        /* --- HEADER TEKS --- */
+        .header {
+            z-index: 10;
+            text-align: center;
+            margin-bottom: 15px; /* Jarak disesuaikan agar tidak terlalu memakan ruang */
+        }
+        
+        .header h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8rem;
+            color: #5b21b6;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            color: #6d28d9;
+            margin-top: 5px;
+        }
+
+        /* --- GALERI POLAROID SCROLL HORIZONTAL --- */
+        .galeri-container {
+            z-index: 10;
+            display: flex;
+            gap: 20px;
+            padding: 20px 30px; /* Padding samping agar scroll terasa lega */
+            width: 100%;
+            max-width: 400px; 
+            overflow-x: auto;
+            scroll-snap-type: x mandatory; 
+            box-sizing: border-box;
+        }
+
+        .galeri-container::-webkit-scrollbar { display: none; }
+
+        .polaroid {
+            background: white;
+            padding: 10px 10px 40px 10px;
+            border-radius: 5px;
+            box-shadow: 0 10px 20px rgba(109, 40, 217, 0.15);
+            min-width: 220px; /* Lebar foto sedikit diperbesar */
+            height: 260px;
+            scroll-snap-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Rotasi bolak-balik */
+        .polaroid:nth-child(odd) { transform: rotate(-3deg); }
+        .polaroid:nth-child(even) { transform: rotate(3deg); }
+        .polaroid:active { transform: scale(0.95) !important; }
+
+        .polaroid img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+
+        .polaroid .caption-kecil {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.2rem;
+            color: #4c1d95;
+        }
+
+        /* --- MODAL ZOOM (POP UP CERITA) --- */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(252, 249, 255, 0.85); 
+            backdrop-filter: blur(10px); 
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal.buka { opacity: 1; pointer-events: all; }
+
+        .modal-konten {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(91, 33, 182, 0.2);
+            width: 100%;
+            max-width: 350px;
+            transform: scale(0.8);
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .modal.buka .modal-konten { transform: scale(1); }
+
+        .modal-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .modal-cerita {
+            font-size: 0.95rem;
+            color: #4c1d95;
+            text-align: center;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .btn-tutup {
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+            transition: background 0.3s;
+        }
+        .btn-tutup:active { transform: scale(0.95); }
+        
+        /* --- PAGINATION DOTS --- */
+        .pagination { display: flex; gap: 10px; margin-top: 15px; z-index: 10; }
+        .dot { width: 8px; height: 8px; background-color: #d8b4fe; border-radius: 50%; }
+        .dot.aktif { background-color: #6d28d9; width: 24px; border-radius: 10px; }
+        body.pindah-hal {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+        .btn-lanjut {
+            background: linear-gradient(135deg, #8b5cf6, #5b21b6);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(109, 40, 217, 0.3);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        .btn-lanjut:active { transform: scale(0.95); }
+
+        /* Efek transisi memudar seperti PPT */
+        body.pindah-hal {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+        /* --- TOMBOL KEMBALI UNIVERSAL --- */
+        .btn-kembali {
+            position: fixed; top: 20px; left: 20px; z-index: 100;
+            background: rgba(139, 92, 246, 0.2); color: #5b21b6;
+            border: none; padding: 8px 15px; border-radius: 20px;
+            font-weight: 600; cursor: pointer; transition: 0.3s;
+        }
+        .btn-kembali:active { transform: scale(0.9); }
+        
+        /* Pastikan CSS fade out PPT ini juga ada */
+        body.pindah-hal { opacity: 0; transition: opacity 0.8s ease; }
+    </style>
+</head>
+<body>
+    <button class="btn-kembali" onclick="pindahHalaman('index.html')">⬅ Kembali</button>
+
+    <svg class="wave-top" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#eaddff" fill-opacity="1" d="M0,160L48,144C96,128,192,96,288,106.7C384,117,480,171,576,197.3C672,224,768,224,864,208C960,192,1056,160,1152,133.3C1248,107,1344,85,1392,74.7L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+        <path fill="#d0bcff" fill-opacity="0.6" d="M0,224L60,208C120,192,240,160,360,165.3C480,171,600,213,720,213.3C840,213,960,171,1080,149.3C1200,128,1320,128,1380,128L1440,128L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+    </svg>
+
+    <div class="header">
+        <h1>Momen Kita</h1>
+        <p>Geser ke kanan dan klik fotonya ya...</p>
+    </div>
+
+    <div class="galeri-container">
+        
+        <div class="polaroid" onclick="bukaFoto(this)" data-cerita="Jadi Sayang ini foto pertama yang abang ambil, waktu itu kita baru jalan dan masih butterfly banget abang, dan foto ini abang ambil saat kita nyari skincare dede.">
+            <img src="1.png" alt="Foto 1">
+            <div class="caption-kecil">First Taken Photo</div>
+        </div>
+
+        <div class="polaroid" onclick="bukaFoto(this)" data-cerita="Inget gak Sayang, ini foto kita waktu hiking bareng di Matang Kaladan, waktu itu dede semangat banget sampe capek sendiri karena start duluan, tapi abang seneng banget bisa nemenin dede sampe puncak.">
+            <img src="2.png" alt="Foto 2">
+            <div class="caption-kecil">Hiking Date</div>
+        </div>
+
+        <div class="polaroid" onclick="bukaFoto(this)" data-cerita="Ini foto krusial karena saat momen ini hape abang pecah hehe, tapi kita sorenya keliling keliling nyari kain batik kalteng yang syukurnya bisa kita pakai malamnya buat couplean, abang sangat senang bisa memakai ide dede sayang.">
+            <img src="3.png" alt="Foto 3">
+            <div class="caption-kecil">Batik Night Couple</div>
+        </div>
+
+        <div class="polaroid" onclick="bukaFoto(this)" data-cerita="Wihh malam ini dede sangat menjaga mood banget sayang terimakasih huhu, walau malam itu abang sangat sedih dan diam, dan abang juga jadi vokalis utama malam itu, tapi dede selalu nemenin abang dengan Cheerful nya, abang bangga bisa punya dede yang selalu ada dukung abang.">
+            <img src="4.png" alt="Foto 4">
+            <div class="caption-kecil">Malam Puncak Civilphoria</div>
+        </div>
+
+        <div class="polaroid" onclick="bukaFoto(this)" data-cerita="Siapa Hayooo yang malam malam nyari Tang Hu Lu, Untung banget lagi ada pameran malam itu, jadi bisa deh menuhin beli Tang Hu Lu nya dede, dan kita juga sempet keliling keliling pameran malam itu, Love you sayang. Semoga abang selalu bisa memenuhin keinginan dede yaa sayang.">
+            <img src="5.png" alt="Foto 5">
+            <div class="caption-kecil">Tang Hu Lu Date</div>
+        </div>
+
+        <div class="polaroid" onclick="bukaFoto(this)" data-cerita="Baju PDH Kampus kita baru keluar, dan kita sempet foto bareng di depan kelas pas dede dosen nya belum datang datang, Dede cantik banget kalo makai PDH sayang, Doa abang dengan baju itu dede bisa menyelesaikan study nya yaa sayang, dan abang juga bisa menyelesaikan study nya dengan baik.">
+            <img src="6.png" alt="Foto 6">
+            <div class="caption-kecil">Engineering Campus</div>
+        </div>
+
+        <div class="polaroid" onclick="bukaFoto(this)" data-cerita="Wahh one of my favorite moment, ini foto kita waktu lagi main game di timzone, everything about this moment is so fun, dan bahkan sangat puas dengan hasilnya, And with this Hope Every joy and happiness will always be with you, and i hope we can always be together and make more memories like this.">
+            <img src="7.png" alt="Foto 7">
+            <div class="caption-kecil">Timezone Time</div>
+        </div>
+
+        <div class="polaroid" onclick="bukaFoto(this)" data-cerita="Ini foto kita waktu pertama kali photobooth bareng, dan ini juga salah satu momen yang sangat berkesan buat abang, karena ini adalah momen pertama kita photobooth bareng, dan semoga kita bisa nambahin lagi momen photobooth kita yaa sayang, dengan keunikan photobooth yang beda beda.">
+            <img src="8.png" alt="Foto 8">
+            <div class="caption-kecil">Our First Photobooth</div>
+        </div>
+
+        <div class="polaroid" onclick="bukaFoto(this)" data-cerita="Sedih. itu sih yang bisa gambarkan moment ini, abang harus ngambil keputusan buat cuti dan bikin kita jauh, tapi dede selalu ada, bahkan di moment terakhir kita bisa ketemu, terimakasih yaa sayang, semoga kita bisa selalu ada buat satu sama lain, dan semoga kita di depan sana selalu bersama yaa sayang.">
+            <img src="9.png" alt="Foto 9">
+            <div class="caption-kecil">Moment Of Silence</div>
+        </div>
+
+    </div>
+
+    <div class="pagination">
+        <div class="dot"></div>       
+        <div class="dot"></div>       
+        <div class="dot aktif"></div> 
+        <div class="dot"></div>       
+        <div class="dot"></div>       
+    </div>
+
+    <button class="btn-lanjut" onclick="lanjutKeHalaman4()">Lihat Masa Depan ✨</button>
+
+    <svg class="wave-bottom" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#eaddff" fill-opacity="1" d="M0,160L48,170.7C96,181,192,203,288,181.3C384,160,480,96,576,90.7C672,85,768,139,864,160C960,181,1056,171,1152,149.3C1248,128,1344,96,1392,80L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+    </svg>
+
+    <div class="modal" id="modalFoto">
+        <div class="modal-konten">
+            <img src="" id="imgModal" class="modal-img" alt="Zoom Foto">
+            <div id="teksModal" class="modal-cerita">Isi cerita...</div>
+            <button class="btn-tutup" onclick="tutupFoto()">Tutup Foto</button>
+        </div>
+    </div>
+
+    <script>
+        function pindahHalaman(tujuan) {
+            document.body.classList.add('pindah-hal');
+            setTimeout(function() { window.location.href = tujuan; }, 800);
+        }
+        // Fungsi untuk POP-UP Foto
+        function bukaFoto(elemenPolaroid) {
+            const gambarSrc = elemenPolaroid.querySelector('img').src;
+            const teksCerita = elemenPolaroid.getAttribute('data-cerita');
+
+            document.getElementById('imgModal').src = gambarSrc;
+            document.getElementById('teksModal').innerText = teksCerita;
+            document.getElementById('modalFoto').classList.add('buka');
+        }
+
+        function tutupFoto() {
+            document.getElementById('modalFoto').classList.remove('buka');
+        }
+
+        // Fungsi Transisi Mulus ke Halaman 4
+        function lanjutKeHalaman4() {
+            // 1. Geser titik indikator ke nomor 4
+            const dots = document.querySelectorAll('.dot');
+            if (dots.length > 3) {
+                dots[2].classList.remove('aktif');
+                dots[3].classList.add('aktif');
+            }
+
+            // 2. Buat layar memudar (fade out)
+            document.body.classList.add('pindah-hal');
+            
+            // 3. Jeda 0.8 detik lalu pindah ke halaman 4
+            setTimeout(function() {
+                window.location.href = 'halaman4.html'; 
+            }, 800);
+        }
+    </script>
+</body>
+</html>
